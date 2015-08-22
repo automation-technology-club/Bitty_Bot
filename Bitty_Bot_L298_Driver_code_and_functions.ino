@@ -75,13 +75,13 @@ speed = 150; // fastest I want Bitty Bot to go
     delay(500);
   }
   
-  if (sI > 6 && sI <= 20) {
+  if (sI > 3 && sI <= 20) {
     speed = 65;
     forward();
     delay(500);
   }
   
-  if (sI <=5) {
+  if (sI <=2) {
     allstop();
     delay(500);
     speed = 150;
