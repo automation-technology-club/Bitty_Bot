@@ -59,8 +59,9 @@ pinMode (PWMRPin, OUTPUT);
 void loop()
 {
 
+
 speed = 150; // fastest I want Bitty Bot to go
-  delay(50);
+  delay(500);
   unsigned int uS = sonar.ping();
   unsigned int sI = (uS / US_ROUNDTRIP_IN);
   
@@ -69,13 +70,13 @@ speed = 150; // fastest I want Bitty Bot to go
     delay(500);
   }
   
-  if (sI > 20 && sI <= 30) {
+  if (sI > 20 && sI <= 29) {
     speed = 100;
     forward();
     delay(500);
   }
   
-  if (sI > 3 && sI <= 20) {
+  if (sI > 3 && sI <= 19) {
     speed = 65;
     forward();
     delay(500);
@@ -89,8 +90,8 @@ speed = 150; // fastest I want Bitty Bot to go
     delay(700);
     lefttight();
     delay(700);
+    allstop();
   }
-
 }
 
 void lefttight() {
