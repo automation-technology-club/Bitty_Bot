@@ -4,11 +4,14 @@ Code for the Bitty Bot Rover.
 
 ## Installation
 
-TODO: Describe the installation process
+Must have the NewPing Library installed 
+https://code.google.com/p/arduino-new-ping/
 
 ## Usage
 
-TODO: Write usage instructions
+Bitty Bot will drive forward until something gets in it way - slowing down as it gets close to an object at aproxmately 2 inches it will then backup, turn to the left, and try to move forward again.
+
+This is a testing branch and things are bound to change over time, PIN numbers may or may not be the same at the end of testing.
 
 ## Contributing
 
