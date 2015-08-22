@@ -59,60 +59,37 @@ pinMode (PWMRPin, OUTPUT);
 void loop()
 {
 
-
+speed = 150; // fastest I want Bitty Bot to go
   delay(50);
   unsigned int uS = sonar.ping();
+  unsigned int sI = (uS / US_ROUNDTRIP_IN);
   
+  if (sI >= 30) {
+    forward();
+    delay(500);
+  }
   
-//This small section of code shows the relationship of speed vs time 
-speed = 65; // speed is set low = slow  
-forward(); // go forward 
-delay(1000); // keep going forward for 1 second
-allstop(); // stop all the motors, turn off PWM
-delay(2500); // wait..
-speed = 100; // set speed to a low meduim speed
-backward(); // go backward and keep going backward
-delay(300); //notice now however time is 300 milli-seconds 
-allstop(); //again stop all motors and PWM
-delay(2500); //wait
-
-/*
-speed = 100;
-lefttight();  //turn in place to the left
-delay(500);
-righttight(); //turn in place to the right
-delay(500);
-left();   //turn left going forward
-delay(500);
-leftb();  //turn left going backward
-delay(500);
-allstop(); //stop all motors and pwm, small delay for everything to catch up
-right(); //turn right going forward
-delay(500);
-rightb(); //turn right going backward
-delay(500);
-allstop(); 
-speed = 150;
-forward(); //move the robot forward
-delay(1000);
-backward(); // move the robot backward
-delay(1000);
-allstop();
-
-speed = 75;
-circleleft(100); //make a left hand circle X number of times
-allstop();
-//delay(100);
-speed = 125;
-circleright(100); //make a right hand circle  X number of times
-allstop();
-//delay(100);
-speed = 60;
-left();
-delay(200);
-allstop();
-//delay(15000); //long delay
-*/
+  if (sI > 20 && sI <= 30) {
+    speed = 100;
+    forward();
+    delay(500);
+  }
+  
+  if (sI > 6 && sI <= 20) {
+    speed = 65;
+    forward();
+    delay(500);
+  }
+  
+  if (sI <=5) {
+    allstop();
+    delay(500);
+    speed = 150;
+    backward();
+    delay(700);
+    lefttight();
+    delay(700);
+  }
 
 }
 
