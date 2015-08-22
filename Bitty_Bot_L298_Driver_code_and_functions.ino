@@ -5,6 +5,10 @@
 // Subroutines Aug 18 - LeRoy Miller
 // additions will be added for speed correction of wheels
 
+//Aug 22 2015 - added ultrasonic sensor using NewPing Library https://code.google.com/p/arduino-new-ping/
+
+#include <NewPing.h>
+
 const int PWMLPin = 44; //	Enable PWM Left Motor
 const int PWMRPin = 46; //	Enable PWM Right Motor
 const int L1Pin = 36; // 	L1 = Left Motor Lead 1
@@ -31,6 +35,13 @@ circleleft(100); //make a left hand circle X number of times
 circleright(100); //make a right hand circle  X number of times
 */
 
+#define TRIGGER_PIN 12 //Arduino Pin Tied to Trigger Pin on the ultrasonic sensor
+#define ECHO_PIN 11 //Arduino Pin Tied to echo pin on the ultrasonic sensor
+#define MAX_DISTANCE 200 //Maximum distance we want to ping for (in centimeters).  Maximum sensor distance is rated at 400 - 500cm
+
+NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
+
+//Bitty Bot will drive forward until something gets in it way - slowing down as it gets close to an object at aproxmately 2 inches it will then backup, turn to the left, and try to move forward again.
 
 void setup()
 {
@@ -49,6 +60,10 @@ void loop()
 {
 
 
+  delay(50);
+  unsigned int uS = sonar.ping();
+  
+  
 //This small section of code shows the relationship of speed vs time 
 speed = 65; // speed is set low = slow  
 forward(); // go forward 
