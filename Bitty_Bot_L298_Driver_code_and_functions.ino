@@ -50,6 +50,8 @@ void loop()
 
 
 //This small section of code shows the relationship of speed vs time 
+
+//In this part speed will change but time will stay the same - it will drive forward slowly for about 1 second, then drive backward quickly for about 1 second
 speed = 65; // speed is set low = slow  
 forward(); // go forward 
 delay(1000); // keep going forward for 1 second
@@ -57,47 +59,24 @@ allstop(); // stop all the motors, turn off PWM
 delay(2500); // wait..
 speed = 100; // set speed to a low meduim speed
 backward(); // go backward and keep going backward
-delay(300); //notice now however time is 300 milli-seconds 
+delay(1000); //notice now however time is 300 milli-seconds 
 allstop(); //again stop all motors and PWM
-delay(2500); //wait
+delay(2500);
 
-/*
-speed = 100;
-lefttight();  //turn in place to the left
-delay(500);
-righttight(); //turn in place to the right
-delay(500);
-left();   //turn left going forward
-delay(500);
-leftb();  //turn left going backward
-delay(500);
-allstop(); //stop all motors and pwm, small delay for everything to catch up
-right(); //turn right going forward
-delay(500);
-rightb(); //turn right going backward
-delay(500);
-allstop(); 
-speed = 150;
-forward(); //move the robot forward
-delay(1000);
-backward(); // move the robot backward
-delay(1000);
+//this time speed will remain the same, and time will change
+speed = 100; //medium speed setting
+forward();
+delay(2000); //going forward for about 2 seconds
 allstop();
+delay(2500);
+backward();
+delay(1000); //going backward for about 1 second
+allstop();
+delay(2500);
 
-speed = 75;
-circleleft(100); //make a left hand circle X number of times
-allstop();
-//delay(100);
-speed = 125;
-circleright(100); //make a right hand circle  X number of times
-allstop();
-//delay(100);
-speed = 60;
-left();
-delay(200);
-allstop();
-//delay(15000); //long delay
-*/
+
+delay(12500); // very long delay before looping back 
+
 
 }
 
