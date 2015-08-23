@@ -4,11 +4,23 @@ Code for the Bitty Bot Rover.
 
 ## Installation
 
-TODO: Describe the installation process
+Nothing Special Needed for this code
 
 ## Usage
 
-TODO: Write usage instructions
+Demo of PWM vs time for the Bitty Bot
+
+1st it will move forward very slow for about 1 second, pause
+and go backward quickly for about 1 second. Demo the distance
+that can be traveled both slowly and quickly.
+
+2nd it will keep the speed the same, but change the time
+Go forward for about 2 seconds (quickly/medium speed), pause
+Go backward for about 1 second (quickly/medium speed), pause
+
+there is a long delay between looping, the cycle will repeat.
+
+This is a testing branch and things are bound to change over time, PIN numbers may or may not be the same at the end of testing.
 
 ## Contributing
 
