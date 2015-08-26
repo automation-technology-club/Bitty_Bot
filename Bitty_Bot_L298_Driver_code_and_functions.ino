@@ -8,6 +8,7 @@
 //Aug 22 2015 - added ultrasonic sensor using NewPing Library https://code.google.com/p/arduino-new-ping/
 
 #include <NewPing.h>
+#include <Servo.h>
 
 const int PWMLPin = 44; //	Enable PWM Left Motor
 const int PWMRPin = 46; //	Enable PWM Right Motor
@@ -20,6 +21,8 @@ const int MaxSpeed = 255; //not yet used, this will be the max speed your motors
 const int CorrectLeft = 0; //to be added later, this will attempt to correct for any motor differances in going forward/backward
 const int CorrectRight = 0; //to be added later, this will attempt to correct for any motor differances in going forward/backward
 int speed; 
+
+#define ServoPin 9 //attach the servo to this pin
 
 /* FUNCTION CALL USES
 lefttight();  //turn in place to the left
@@ -40,6 +43,7 @@ circleright(100); //make a right hand circle  X number of times
 #define MAX_DISTANCE 200 //Maximum distance we want to ping for (in centimeters).  Maximum sensor distance is rated at 400 - 500cm
 
 NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
+Servo myservo;
 
 //Bitty Bot will drive forward until something gets in it way - slowing down as it gets close to an object at aproxmately 2 inches it will then backup, turn to the left, and try to move forward again.
 
@@ -53,6 +57,7 @@ pinMode (L4Pin, OUTPUT);
 pinMode (PWMLPin, OUTPUT);
 pinMode (PWMRPin, OUTPUT);
 
+myservo.attach(ServoPin); 
 
 }
 
@@ -76,20 +81,22 @@ speed = 150; // fastest I want Bitty Bot to go
     delay(500);
   }
   
-  if (sI > 3 && sI <= 19) {
+  if (sI > 6 && sI <= 19) {
     speed = 65;
     forward();
     delay(500);
   }
   
-  if (sI <=2) {
+  if (sI <=5) {
     allstop();
     delay(500);
     speed = 150;
     backward();
     delay(700);
-    lefttight();
-    delay(700);
+    allstop();
+    checkservo();
+    //lefttight();
+    //delay(700);
     allstop();
   }
 }
@@ -192,4 +199,66 @@ int circleright(int count) {
 		delay(250);
 	}
 	allstop();
+}
+
+void checkservo() {
+  
+  myservo.write(91);
+  delay(500);
+  myservo.write(45);
+  delay(500);
+  unsigned int uS = sonar.ping();
+  unsigned int sRight = (uS / US_ROUNDTRIP_IN);
+  myservo.write(91);
+  delay(500);
+   uS = sonar.ping();
+  unsigned int sForward = (uS / US_ROUNDTRIP_IN);
+  myservo.write(135);
+  delay(500);
+   uS = sonar.ping();
+  unsigned int sLeft = (uS / US_ROUNDTRIP_IN);
+  myservo.write(91);
+  delay(500);
+  
+  if (sRight <= 6 && sLeft <= 6) {
+    allstop();
+    delay(500);
+    speed = 150;
+    backward();
+    delay(700);
+    allstop();
+    checkservo();
+    //lefttight();
+    //delay(700);
+    allstop();
+    return;
+  } //This will continue to backup if still too close to something
+  
+  if (sRight >= 15 || sLeft <=15) {
+    righttight();
+    delay(700);
+    return;
+  } //turn right
+  
+  if (sLeft >= 15 || sRight <=15) {
+    lefttight();
+    delay(700);
+    return;
+  } //turn left
+  
+  if (sRight >=15 && sLeft >=15) {
+    lefttight(); 
+    delay(1500);
+    allstop();
+    checkservo();
+    return();
+  } //big left turn
+  
+  if (sRight <= 15 && sLeft <=15) {
+    righttight();
+    delay(1500);
+    allstop();
+    checkservo();
+    return();
+  }  
 }
