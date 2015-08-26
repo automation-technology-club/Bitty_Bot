@@ -251,7 +251,7 @@ void checkservo() {
     delay(1500);
     allstop();
     checkservo();
-    return();
+    return;
   } //big left turn
   
   if (sRight <= 15 && sLeft <=15) {
@@ -259,6 +259,6 @@ void checkservo() {
     delay(1500);
     allstop();
     checkservo();
-    return();
+    return;
   }  
 }
