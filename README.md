@@ -1,6 +1,15 @@
 # Bitty Bot
 
-Code for the Bitty Bot Rover.
+Started working on code for ESP8266.
+2 different sketches, they are not complete
+1st lets you send commands to the BittyBot via a webpage or url (It does not serve the page)
+send like this: http://192.168.4.1/?drive=11  Where 11 is a number to tell the robot what to do
+what this demostrates is how an Android or IOS device might beable to send commands to the robot
+
+2nd sketch serves a webpage, currently it has a fake "Voltage" reading, what this demostrates is how the BittyBot
+might beable to display information.
+
+The ultimate idea would be to combine the two sketch so the BittyBot could serve the website, and have control code sent to it
 
 ## Installation
 
