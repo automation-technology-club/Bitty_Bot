@@ -37,31 +37,27 @@ circleright(100); //make a right hand circle  X number of times
 
 #include "IRremote.h"
 
-int receiver = 11;
+int receiver = 24;
 IRrecv irrecv(receiver);
 decode_results results;
 
-/* CODES For My Remote - Yours probably will be different
-1685187709 (Green Button Not marked) - UP
-343449017 (light blue button not marked) - OK 
-1097729501 (darker blue button not marked) - Down
-1041374241 (dark purple button not marked) - right
-2214874045 (orange button not marked) - left
-247 - seems like it might be a button change code
-16240687 (may also be a button change code - or delay of same button pushed code)
-3571254145 - off
-3457774333 - on
-16236607 (Not sure??)
-16197847 (Yellow Button) - left backup
-16214167 (Purplish/pink button) - right backup
-3556612737 (red button not marked) - left turn (not tight)
-16208047 (blue darkish not marked) - right turn (not tight)
+/* CODES For My Remote - Yours probably will be different (unless you are using a Make:IT Robotics Remote IR Controller that looks like a "Wing")
+
+up    2519209162 -HEX 0x962814CA FORWARD
+down  1502638218 -HEX 0x5990708A BACKWARD
+left  2999730842 -HEX 0xB2CC429A LEFT TIGHT
+right 2953994586 -HEX 0xB012615A RIGHT TIGHT
+
+sw7 2054033594 - HEX 0x7A6E10BA  Not Yet Used
+sw8 2534555274 - HEX 0x97123E8A  Not Yet Used
+sw5 2368359343 - HEX 0x8D2A4BAF  Not Yet Used
+sw6 472047109  - HEX 0x1C22DE05  Not Yet Used This code looks too short (if so HEX will be wrong too)
 */
 
 
 void setup()
 {
-
+Serial.begin(9600);
 pinMode (L1Pin, OUTPUT);
 pinMode (L2Pin, OUTPUT);
 pinMode (L3Pin, OUTPUT);
@@ -76,6 +72,7 @@ irrecv.enableIRIn(); //start the receiver
 void loop()
 {
 
+allstop();
 if (irrecv.decode(&results)) {
 	translateIR();
 	irrecv.resume();
@@ -85,31 +82,36 @@ if (irrecv.decode(&results)) {
 void translateIR() {
 
 switch(results.value) {
-case 1685187709:
+	
+case 0x962814CA:
 //up = forward
 forward();
 delay(100);
+Serial.println("Forward");
 break;
 
-case 1097729501:
+case 0x5990708A:
 //down = backward
 backward();
 delay(100);
+Serial.println("Backward");
 break;
 
-case 1041374241:
+case 0xB012615A:
 //right = tight right turn
 righttight();
+Serial.println("TightRight");
 delay(100);
 break;
 
-case 2214874045:
+case 0xB2CC429A:
 //left = tight left turn
 lefttight();
 delay(100);
+Serial.println("TightLeft");
 break;
 
-case 343449017:
+/*case 343449017:
 //ok
 break;
 
@@ -139,6 +141,7 @@ break;
 
 default:
 break;
+*/
 
 }	
 }
