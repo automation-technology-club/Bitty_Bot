@@ -1,6 +1,6 @@
 # Bitty Bot
 
-Code for the Bitty Bot Rover.
+Testing Library for Bitty Bot Rover.
 
 ## Installation
 
@@ -8,7 +8,23 @@ TODO: Describe the installation process
 
 ## Usage
 
-TODO: Write usage instructions
+include "BittyBot.h"
+
+create a BittyBot object -
+
+BittyBot BittyBot(PWMLPin, PWMRPin, L1Pin, L2Pin, L3Pin, L4Pin);
+
+BittyBot.lefttight(speed);  //turn in place to the left
+BittyBot.righttight(speed); //turn in place to the right
+BittyBot.left(speed);   //turn left going forward
+BittyBot.leftb(speed);  //turn left going backward
+BittyBot.allstop(); //stop all motors and pwm, small delay for everything to catch up
+BittyBot.right(speed); //turn right going forward
+BittyBot.rightb(speed); //turn right going backward
+BittyBot.forward(speed); //move the robot forward
+BittyBot.backward(speed); // move the robot backward
+
+See Library Sketch for some examples.
 
 ## Contributing
 
@@ -21,6 +37,9 @@ TODO: Write usage instructions
 ## Credits
 
 LeRoy Miller
+
+This is my very 1st Arduino Library, it wasn't as bad as I thought it would be, but needs some improvements.
+Sept 7, 2015
 
 ## License
 
