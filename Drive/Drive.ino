@@ -31,6 +31,10 @@ circleleft(100); //make a left hand circle X number of times
 circleright(100); //make a right hand circle  X number of times
 */
 
+//Sept 8 - Added Voltage Sensor with Shut off at 6.2volts
+
+int val11; //for voltage sensor
+int val2; //for voltage sensor
 
 void setup()
 {
@@ -42,13 +46,14 @@ pinMode (L4Pin, OUTPUT);
 pinMode (PWMLPin, OUTPUT);
 pinMode (PWMRPin, OUTPUT);
 
+Serial.begin(9600);
 
 }
 
 void loop()
 {
 
-
+checkvoltage();
 //This small section of code shows the relationship of speed vs time 
 speed = 65; // speed is set low = slow  
 forward(); // go forward 
@@ -200,3 +205,48 @@ int circleright(int count) {
 	}
 	allstop();
 }
+
+int checkvoltage() {
+float temp;
+val11=analogRead(1);
+temp=(val11/4.092)/10;
+val11=(int)temp * 10;//
+val2=((val11%100)/10);
+Serial.print("Raw Reading: ");
+Serial.println(temp);
+Serial.println("Corrected Reading: ");
+Serial.println(val2);
+delay(1000);
+
+if (temp <= 7.5 || temp >=6.3) {
+	Serial.println("Very Low Voltage");
+	tone(9, 1000, 100);
+}
+
+if (temp <= 6.3) {
+	Serial.println("Voltage Crital");
+	sos();
+}
+}
+
+int sos() {
+	
+	for (int xx=0; xx<3; xx++) {
+		tone(9, 440, 100);
+		delay(200);
+		noTone(9);
+	}
+	for (int xx=0; xx<3; xx++){
+		tone(9, 440, 300);
+		delay(400);
+		noTone(9);
+	}
+	for (int xx=0; xx<3; xx++) {
+		tone(9, 440, 100);
+		delay(200);
+		noTone(9);
+	}
+	delay(1000);
+	sos();
+}
+
