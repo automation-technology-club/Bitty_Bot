@@ -35,6 +35,18 @@ circleright(100); //make a right hand circle  X number of times
 
 int val11; //for voltage sensor
 int val2; //for voltage sensor
+float volts; //for voltage sensor
+
+//Sept 8 - Added OLED Screen for Display information
+//Needed for OLED
+#include <SPI.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define OLED_RESET 4
+Adafruit_SSD1306 display(OLED_RESET);
+ 
 
 void setup()
 {
@@ -46,6 +58,25 @@ pinMode (L4Pin, OUTPUT);
 pinMode (PWMLPin, OUTPUT);
 pinMode (PWMRPin, OUTPUT);
 
+display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+display.clearDisplay();
+display.setTextSize(1);
+display.setTextColor(WHITE);
+display.setCursor(0,0);
+display.println(" Bitty-Bot  Robot");
+display.println("Startup...");
+display.display();
+delay(2000);
+//display.clearDisplay();
+display.setCursor(0,8);
+display.setTextColor(BLACK);
+display.println("Startup...");
+display.setCursor(0,8);
+display.setTextColor(WHITE);
+display.println("Ready....");
+display.display();
+delay(2000);
+display.clearDisplay();
 Serial.begin(9600);
 
 }
@@ -53,7 +84,19 @@ Serial.begin(9600);
 void loop()
 {
 
-checkvoltage();
+display.setTextColor(BLACK);
+display.setCursor(0,46);
+display.print("Volts: ");
+display.print(volts);
+display.print(" V");
+volts = checkvoltage();
+display.setTextColor(WHITE);
+display.setCursor(0,46);
+display.print("Volts: ");
+display.print(volts);
+display.print(" V");
+display.display();
+
 //This small section of code shows the relationship of speed vs time 
 speed = 65; // speed is set low = slow  
 forward(); // go forward 
@@ -227,6 +270,7 @@ if (temp <= 6.3) {
 	Serial.println("Voltage Crital");
 	sos();
 }
+return (temp);
 }
 
 int sos() {
