@@ -48,7 +48,7 @@ down  1502638218 -HEX 0x5990708A BACKWARD
 left  2999730842 -HEX 0xB2CC429A LEFT TIGHT
 right 2953994586 -HEX 0xB012615A RIGHT TIGHT
 
-sw7 2054033594 - HEX 0x7A6E10BA  Not Yet Used
+sw7 2054033594 - HEX 0x7A6E10BA  ALLSTOP
 sw8 2534555274 - HEX 0x97123E8A  Not Yet Used
 sw5 2368359343 - HEX 0x8D2A4BAF  Not Yet Used
 sw6 472047109  - HEX 0x1C22DE05  Not Yet Used This code looks too short (if so HEX will be wrong too)
@@ -111,11 +111,13 @@ delay(100);
 Serial.println("TightLeft");
 break;
 
-/*case 343449017:
-//ok
+case 0x7A6E10BA:
+//sw7 - All Stop
+allstop();
+delay(500);
 break;
 
-case 16197847:
+/*case 16197847:
 //Yellow Button left backup turn
 leftb();
 delay(50);
