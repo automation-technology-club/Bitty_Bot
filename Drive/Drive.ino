@@ -261,12 +261,12 @@ Serial.println("Corrected Reading: ");
 Serial.println(val2);
 delay(1000);
 
-if (temp <= 7.5 || temp >=6.3) {
+if (temp <= 7.5 || temp >=7.1) {
 	Serial.println("Very Low Voltage");
 	tone(9, 1000, 100);
 }
 
-if (temp <= 6.3) {
+if (temp <= 7.00) {
 	Serial.println("Voltage Crital");
 	sos();
 }
