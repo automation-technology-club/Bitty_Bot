@@ -60,6 +60,14 @@ const int IRaPIN1 = A8; //Left IR Sensor
 const int IRaPIN2 = A9; //Center IR Sensor
 const int IRaPIN3 = A10; //Right IR Sensor
 
+//Sept 9, 2015 - Line Following, using Digital IR
+/* Logic - IR Low = White - LED is on
+           IR High = Black - LED is OFF
+  Center IR wants to always see a HIGH, if it drops to a LOW, LEFT & RIGHT IR read until they see a HIGH, correcting in the direction opposite of the High
+  until the Center IR sees a HIGH again. 
+  Doing this type of Line Following is a slow way to do it, but should work, Notes: this has not been tested yet
+  */
+  
 void setup()
 {
 
@@ -113,12 +121,10 @@ display.print(volts);
 display.print(" V");
 display.display();
 
-//This small section of code shows the relationship of speed vs time 
-irdrop();
 speed = 65; // speed is set low = slow  
 forward(); // go forward 
 delay(100); // keep going forward 
-
+if (digitalRead(IRPIN2) == LOW) {linecorrect(); }
 
 }
 
@@ -267,26 +273,16 @@ int sos() {
 	sos();
 }
 
-void irdrop() {
-	int ir1 = digitalRead(IRPIN1);
-	int ir2 = digitalRead(IRPIN2);
-	int ir3 = digitalRead(IRPIN3);
-	Serial.print("IR1: PIN 51: ");
-	Serial.println(ir1);
-	Serial.print("IR2: PIN 53: ");
-	Serial.println(ir2);
-	Serial.print("IR3: PIN 49: ");
-	Serial.println(ir3);
-	
-	if (ir1 == 1 || ir2 == 1 || ir3 == 1) { 
-		allstop();
-		delay(500);
-		speed=150;
-		backward();
-		delay(700);
-		allstop();
-		righttight();
-		delay(700);
-		allstop();
-	}
+int linecorrect() {
+  while(IRPIN2 == LOW) {
+  speed = 45; //slow down
+  if (IRPIN1 == HIGH) {
+    right();
+    delay(50);
+      }
+  if (IRPIN3 == HIGH) {
+    left();
+    delay(50);
+      }
+  }
 }

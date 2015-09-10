@@ -1,7 +1,7 @@
 # Bitty Bot
 
 Code for the Bitty Bot Rover.
-Added IR Drop Sensor Function
+Added IR Line Follow Function (Digital)
 
 ## Installation
 
