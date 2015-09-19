@@ -7,8 +7,15 @@
 
 //Aug 22 2015 - added ultrasonic sensor using NewPing Library https://code.google.com/p/arduino-new-ping/
 
+
 #include <NewPing.h>
-#include <Servo.h>
+//#include <Servo.h> //Even though the library documentation says this will not cause problems with PWM, it seems to disable the PWM pins 
+//Sep 18, modified this sketch to work with 6 wire L298 driver setup, and servo.  In order to set this up you'll need to know what 
+//the PWM of Center, the PWM of LEFT 45 degrees, and the PWM of Right 45 degrees for your servo.
+
+const int CenterServo = 150; 
+const int LeftServo = 250;
+const int RightServo = 100;
 
 const int PWMLPin = 44; //	Enable PWM Left Motor
 const int PWMRPin = 46; //	Enable PWM Right Motor
@@ -22,7 +29,7 @@ const int CorrectLeft = 0; //to be added later, this will attempt to correct for
 const int CorrectRight = 0; //to be added later, this will attempt to correct for any motor differances in going forward/backward
 int speed; 
 
-#define ServoPin 9 //attach the servo to this pin
+#define ServoPin 8 //attach the servo to this pin
 
 /* FUNCTION CALL USES
 lefttight();  //turn in place to the left
@@ -43,7 +50,7 @@ circleright(100); //make a right hand circle  X number of times
 #define MAX_DISTANCE 200 //Maximum distance we want to ping for (in centimeters).  Maximum sensor distance is rated at 400 - 500cm
 
 NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
-Servo myservo;
+
 
 //Bitty Bot will drive forward until something gets in it way - slowing down as it gets close to an object at aproxmately 2 inches it will then backup, turn to the left, and try to move forward again.
 
@@ -57,7 +64,7 @@ pinMode (L4Pin, OUTPUT);
 pinMode (PWMLPin, OUTPUT);
 pinMode (PWMRPin, OUTPUT);
 
-myservo.attach(ServoPin); 
+analogWrite(ServoPin, CenterServo);
 
 }
 
@@ -203,21 +210,21 @@ int circleright(int count) {
 
 void checkservo() {
   
-  myservo.write(91);
+  analogWrite(ServoPin, CenterServo);
   delay(500);
-  myservo.write(45);
+  analogWrite(ServoPin, RightServo);
   delay(500);
   unsigned int uS = sonar.ping();
   unsigned int sRight = (uS / US_ROUNDTRIP_IN);
-  myservo.write(91);
+  analogWrite(ServoPin, CenterServo);
   delay(500);
    uS = sonar.ping();
   unsigned int sForward = (uS / US_ROUNDTRIP_IN);
-  myservo.write(135);
+  analogWrite(ServoPin, LeftServo);
   delay(500);
    uS = sonar.ping();
   unsigned int sLeft = (uS / US_ROUNDTRIP_IN);
-  myservo.write(91);
+  analogWrite(ServoPin, CenterServo);
   delay(500);
   
   if (sRight <= 6 && sLeft <= 6) {
