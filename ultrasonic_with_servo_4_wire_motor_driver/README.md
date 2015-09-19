@@ -7,9 +7,13 @@ Code for the Bitty Bot Rover.
 Must have the NewPing Library installed 
 https://code.google.com/p/arduino-new-ping/
 
+Added a standard servo
+Need Servo.h (Which should be included with the Arduino IDE)
+
 ## Usage
 
-Bitty Bot will drive forward until something gets in it way - slowing down as it gets close to an object at aproxmately 2 inches it will then backup, turn to the left, and try to move forward again.
+Demo of using the ultrasonic with servo it drives the robot at full speed, and
+is only using 4 wires for the motors
 
 ## Contributing
 

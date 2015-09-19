@@ -15,9 +15,6 @@ Need Servo.h (Which should be included with the Arduino IDE)
 Bitty Bot will drive forward until something gets in it way - slowing down as it gets close to an object at aproxmately 5 inches it will then backup, 
 check right and check left try to figure the best direction to turn, turn and continue to move forward. 
 
-
-This is a testing branch and things are bound to change over time, PIN numbers may or may not be the same at the end of testing.
-
 ## Contributing
 
 1. Fork it!
