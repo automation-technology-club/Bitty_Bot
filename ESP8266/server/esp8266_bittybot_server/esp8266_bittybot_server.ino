@@ -1,5 +1,10 @@
 #define DEBUG true
- 
+ //Sept 8 - Added Voltage Sensor with Shut off at 6.2volts
+
+int val11; //for voltage sensor
+int val2; //for voltage sensor
+float volts; //for voltage sensor
+
 
 void setup()
 {
@@ -35,7 +40,7 @@ void loop()
      int connectionId = Serial1.read()-48; // subtract 48 because the read() function returns 
                                            // the ASCII decimal value and 0 (the first decimal number) starts at 48
      
-     String webpage = "<h1>Bitty Bot Status</h2><br><br>";
+     String webpage = "<html><head><meta http-equiv='refresh' content='30'><body> <h1>Bitty Bot Status</h2><br><br>";
  
      String cipSend = "AT+CIPSEND=";
      cipSend += connectionId;
@@ -57,7 +62,7 @@ void loop()
      sendData(cipSend,1000,DEBUG);
      sendData(webpage,1000,DEBUG);
  
- int val11=123;
+ checkvoltage();
   webpage=(String)val11;
      
      cipSend = "AT+CIPSEND=";
@@ -114,3 +119,52 @@ String sendData(String command, const int timeout, boolean debug)
     
     return response;
 }
+
+int checkvoltage() {
+float temp;
+
+val11=analogRead(1);
+temp=(val11/4.092)/10;
+val11=(int)temp * 10;//
+val2=((val11%100)/10);
+
+Serial.print("Raw Reading: ");
+Serial.println(temp);
+Serial.println("Corrected Reading: ");
+Serial.println(val2);
+delay(1000);
+
+if (temp <= 7.5 && temp >=6.3) {
+	Serial.println("Very Low Voltage");
+	tone(9, 1000, 100);
+}
+
+if (temp <= 6.3) {
+	Serial.println("Voltage Crital");
+	sos();
+}
+volts = temp;
+
+}
+
+int sos() {
+	
+	for (int xx=0; xx<3; xx++) {
+		tone(9, 440, 100);
+		delay(200);
+		noTone(9);
+	}
+	for (int xx=0; xx<3; xx++){
+		tone(9, 440, 300);
+		delay(400);
+		noTone(9);
+	}
+	for (int xx=0; xx<3; xx++) {
+		tone(9, 440, 100);
+		delay(200);
+		noTone(9);
+	}
+	delay(1000);
+	sos();
+}
+
