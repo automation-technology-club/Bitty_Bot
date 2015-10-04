@@ -11,9 +11,10 @@ class Motor {
 	int _speedL;
 	int _speedR;
     int _isrunning;
+    int _useCalibrate; //1 = use the encoder calibrate, 0 = do not use calibrate encoder
     
 public: 
-Motor(int enableL, int enableR, int Left1, int Left2, int Right1, int Right2) {
+Motor(int enableL, int enableR, int Left1, int Left2, int Right1, int Right2, int cal) {
 	_enableL = enableL;
 	_enableR = enableR;
 	_Left1 = Left1;
@@ -21,6 +22,7 @@ Motor(int enableL, int enableR, int Left1, int Left2, int Right1, int Right2) {
 	_Right1 = Right1;
 	_Right2 = Right2;
 	_previousMillis = 0;
+	_useCalibrate = cal;
 }
 
 void begin() {
@@ -62,44 +64,57 @@ void stop() {
 	_isrunning = 0;
 }
 
-void forward(int OnTime) {
+void ramp() {
+	Speed(255,255);
+}
+
+void forward(int OnTime, int speedL, int speedR) {
+	ramp();
 	digitalWrite(_Left1, LOW);
 	digitalWrite(_Left2, HIGH);
 	digitalWrite(_Right1, LOW);
 	digitalWrite(_Right2, HIGH);
 	_OnTime = OnTime;
 	_isrunning = 1;
+	Speed(speedL, speedR);
+
 }
 
-void back(int OnTime) {
+void back(int OnTime, int speedL, int speedR) {
+	ramp();
 	digitalWrite(_Left1, HIGH);
 	digitalWrite(_Left2, LOW);
 	digitalWrite(_Right1, HIGH);
 	digitalWrite(_Right2, LOW);
 	_OnTime = OnTime;
 	_isrunning = 1;
-
+	Speed(speedL, speedR);
 }
 
-void rightTight(int OnTime) {
+void rightTight(int OnTime,int speedL, int speedR) {
+	ramp();
 	digitalWrite(_Left1, LOW);
 	digitalWrite(_Left2, HIGH);
 	digitalWrite(_Right1, HIGH);
 	digitalWrite(_Right2, LOW);
 	_OnTime = OnTime;
 	_isrunning = 1;
+	Speed(speedL, speedR);
 }
 
-void leftTight(int OnTime) {
+void leftTight(int OnTime,int speedL, int speedR) {
+	ramp();
 	digitalWrite(_Left1, HIGH);
 	digitalWrite(_Left2, LOW);
 	digitalWrite(_Right1, LOW);
 	digitalWrite(_Right2, HIGH);
 	_OnTime = OnTime;
 	_isrunning = 1;
+	Speed(speedL, speedR);
 }
 
-void right(int OnTime) {
+void right(int OnTime, int speedL, int speedR) {
+	Speed(255,0);
 	digitalWrite(_Left1, LOW);
 	digitalWrite(_Left2, HIGH);
 	digitalWrite(_Right1, LOW);
@@ -107,9 +122,11 @@ void right(int OnTime) {
 	analogWrite(_enableR, 0);
 	_OnTime = OnTime;
 	_isrunning = 1;
+	Speed(speedL, 0);
 }
 
-void left(int OnTime) {
+void left(int OnTime,int speedL, int speedR) {
+	Speed(0,255);
 	digitalWrite(_Left1, LOW);
 	digitalWrite(_Left2, LOW);
 	digitalWrite(_Right1, LOW);
@@ -117,6 +134,7 @@ void left(int OnTime) {
 	analogWrite(_enableL, 0);
 	_OnTime = OnTime;
 	_isrunning = 1;
+	Speed(0,speedR);
 }
 
 void update() {
@@ -129,20 +147,23 @@ void update() {
 }
 
 void calibrate() {
+	
+	if (_useCalibrate == 1) {
 //We need to know where the magnets are at the start, that is what this is suppose to do, give a common starting point.
-	Speed(50,50);
+	//Speed(50,50);
 		while (digitalRead(3) != HIGH) {
 		
-		right(1000);
+		right(1000, 50,50);
 			}
 			stop();
-			Speed(50,50);
+			//Speed(50,50);
 		while (digitalRead(2) != HIGH) {
 		
-		left(1000);
+		left(1000,50,50);
 	}
 	stop();
 	Speed(0,0);
+	}
 }
 
 int IsRunning() {
@@ -163,8 +184,9 @@ int leftspeed = 75;
 int rightspeed = 75;
 
 
-
-Motor bot(44,46,36,38,40,42); //Left Enable, Right Enable, Pin1 for Left, Pin2 for Left, Pin 1 for Right, Pin 2 for Right
+//IF you are using a hall effect sensor for your wheel encoder, it's a good idea to start the wheels at the same point, and use calibrate
+//otherwise set calibrate to zero.
+Motor bot(44,46,36,38,40,42, 1); //Left Enable, Right Enable, Pin1 for Left, Pin2 for Left, Pin 1 for Right, Pin 2 for Right, use calibrate (1 or 0)
 
 void updaterpm() {
 	unsigned long currentMillis = millis();
@@ -236,8 +258,8 @@ void setup () {
 }
 
 void loop() {
-	bot.Speed(leftspeed,rightspeed);
-	bot.forward(15000);
+	//bot.Speed(leftspeed,rightspeed);
+	bot.forward(15000,leftspeed,rightspeed);
 	
 	while (bot.IsRunning()) {
 		
@@ -247,7 +269,7 @@ void loop() {
 	}
 	
 	bot.Speed(leftspeed,rightspeed);
-	bot.back(15000);
+	bot.back(15000,leftspeed,rightspeed);
 	
 	while (bot.IsRunning()) {
 		Serial.println("Bot Running");
