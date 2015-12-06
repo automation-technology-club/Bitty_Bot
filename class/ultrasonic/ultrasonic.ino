@@ -189,42 +189,15 @@ int rightspeed;
 
 #define TRIGGER_PIN 12
 #define ECHO_PIN 11
-#define MAX_DISTANCE 200
+#define MAX_DISTANCE 500
 
 NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 
 //IF you are using a hall effect sensor for your wheel encoder, it's a good idea to start the wheels at the same point, and use calibrate
 //otherwise set calibrate to zero.
-Motor bot(44,46,36,38,40,42, 1); //Left Enable, Right Enable, Pin1 for Left, Pin2 for Left, Pin 1 for Right, Pin 2 for Right, use calibrate (1 or 0)
+Motor bot(44,46,36,38,40,42, 0); //Left Enable, Right Enable, Pin1 for Left, Pin2 for Left, Pin 1 for Right, Pin 2 for Right, use calibrate (1 or 0)
 
-void updaterpm() {
-	unsigned long currentMillis = millis();
-int tleft = leftspeed;
-int tright = rightspeed;
-if (currentMillis - encoderTimeOld >=1000); {
-if (leftpulses > rightpulses) {tleft = leftspeed - 5;}
-if (leftpulses < rightpulses) {tleft = leftspeed + 5;}
-if (rightpulses > leftpulses) {tright = rightspeed - 5;}
-if (rightpulses < leftpulses) {tright = rightspeed + 5;}
 
-if (tleft >= 255 || tleft <= 0) {tleft = leftspeed;}
-if (tright >= 255 || tright <=0) {tright = rightspeed;}
-
-bot.Speed(tleft, tright);
-
-rightpulses = 0;
-leftpulses = 0;
-encoderTimeOld = currentMillis;
-	}
-}
-
-void leftcounter() {
-	leftpulses++;
-}
-
-void rightcounter() {
-	rightpulses++;
-}
 
 void setup () {
 	Serial.begin(9600);
@@ -232,14 +205,7 @@ void setup () {
 
 	pinMode(leftEncoderPin, INPUT);
 	pinMode(rightEncoderPin, INPUT);
-	attachInterrupt(0, leftcounter, RISING); //left wheel encoder
-	attachInterrupt(1, rightcounter, RISING); //right wheel encoder
 	
-	leftpulses = 0;
-	rightpulses =0;
-	leftrpm = 0;
-	rightrpm = 0;
-	encoderTimeOld = 0;
 	
 	//bot.Speed(leftspeed,rightspeed);
 	//bot.forward(15000);
@@ -247,7 +213,7 @@ void setup () {
 	
 	Serial.println("Hello!");
 
-delay(15000); //just wait for you to sit the robot down 
+delay(3000); //just wait for you to sit the robot down 
 
 }
 
@@ -273,8 +239,7 @@ void checksonar() {
 			while (bot.IsRunning()) {
 			Serial.println("Bot Running");
 			bot.update();
-			updaterpm();
-		}
+					}
 		bot.stop();
 	}
 }
@@ -292,8 +257,7 @@ void loop() {
 		
 		Serial.println("Go Bot Go!");
 		checksonar();
-		updaterpm();
-	}
+			}
 
 
 }
