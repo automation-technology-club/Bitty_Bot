@@ -224,7 +224,39 @@ void setup() {
 
 void loop() {
   
-  if(digitalRead(STQ)==HIGH){       //When a DTMF tone is detected, STQ will read HIGH for the duration of the tone.
+  DTMFread = DTMFtone();
+ 
+//Check Tone and set action
+if (DTMFread == 2) {bot.forward(100,leftspeed,rightspeed);} //2 is forward
+if (DTMFread == 5) {bot.stop();}               //5 is Stop
+if (DTMFread == 8) {bot.back(100, leftspeed, rightspeed);}  //8 is resverse
+if (DTMFread == 4) {bot.left(100, leftspeed, rightspeed+20);} //4 turn left
+if (DTMFread == 6) {bot.right(100, leftspeed+20, rightspeed);} //6 turn right
+if (DTMFread == 11) {lessspeed();} // 11 is the number returned with the * key used to decrease the speed of rover
+if (DTMFread == 12) {morepeed();} //12 is the number returned with the # key used to increase the speed of the rover
+
+DTMFread = 0;
+
+bot.update();
+}
+
+void morespeed() {
+  
+  leftspeed = leftspeed + 5;
+  rightspeed = rightspeed +5;
+  if (leftspeed > 225) {leftspeed = 225;}
+  if (rightspeed > 255) {rightspeed = 225;}
+}
+
+void lessspeed() {
+  leftspeed = leftspeed - 5;
+  rightspeed = rightspeed - 5;
+  if (leftspeed < 60) {leftspeed = 60;}
+  if (rightspeed < 60) {rightspeed = 60;}
+}
+
+int DTMFtone() {
+   if(digitalRead(STQ)==HIGH){       //When a DTMF tone is detected, STQ will read HIGH for the duration of the tone.
     DTMFread=0;
     if(digitalRead(Q1)==HIGH){      //If Q1 reads HIGH, then add 1 to the DTMFread variable
       DTMFread=DTMFread+1;
@@ -239,18 +271,12 @@ void loop() {
       DTMFread=DTMFread+8;
     }
     Serial.println(DTMFread);
-//Check Tone and set action
-if (DTMFread == 2) {bot.forward(100,leftspeed,rightspeed);} //2 is forward
-if (DTMFread == 5) {bot.stop();}               //5 is Stop
-if (DTMFread == 8) {bot.back(100, leftspeed, rightspeed);}  //8 is resverse
-if (DTMFread == 4) {bot.left(100, leftspeed, rightspeed+20);} //4 turn left
-if (DTMFread == 6) {bot.right(100, leftspeed+20, rightspeed);} //6 turn right
- bot.update();  
-      }
-bot.update();
 }
+return DTMFread;
+   }
 
-
+   
+   
 /* ==================================================================================================================================================
          Project: MT8870 DTMF Servo sketch
           Author: Scott C
@@ -261,3 +287,5 @@ bot.update();
                   The DTMF signal is received through the 3.5mm port of the DTMF module and is decoded. We will use the
                   decoded output to control the position of the Servo. A SG-5010 Servo motor was used in this project.
 ===================================================================================================================================================== */
+
+/* Personal notes: May 4 2016 - Moved DTMF tone reading to subroutine, and added code for setting speed using DTMF tones */
