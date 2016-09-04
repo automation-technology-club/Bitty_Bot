@@ -4,6 +4,7 @@ Testing Library for Bitty Bot Rover.
 Version 2 of a Bitty Bot Motor Library, not working correctly.
 For something that is working, that this library was based from see the testing-class branch of this 
 repository.
+Updated for testing Sept 4, 2016
 
 ## Installation
 

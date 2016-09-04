@@ -7,7 +7,7 @@ created by LeRoy Miller, Oct 3, 2015
 
 #include "Arduino.h"
 
-class BittyBot2 {
+class BittyBot {
 private:
 	int _enableL;
 	int _enableR;
@@ -19,16 +19,21 @@ private:
 	long _OnTime;
 	int _speedL;
 	int _speedR;
-    int _isrunning;
-    
+  int _isrunning;
 public: 
-BittyBot2(int enableL, int enableR, int Left1, int Left2, int Right1, int Right2) {
-	_enableL = enableL;
-	_enableR = enableR;
-	_Left1 = Left1;
-	_Left2 = Left2;
-	_Right1 = Right1;
-	_Right2 = Right2;
-	_previousMillis = 0;
+BittyBot(int enableL, int enableR, int Left1, int Left2, int Right1, int Right2); 
+void begin();
+void Speed(int speedL, int speedR);
+void stop();
+void forward(int OnTime);
+void back(int OnTime);
+void rightTight(int OnTime);
+void leftTight(int OnTime);
+void right(int OnTime);
+void left(int OnTime);
+void update();
+void calibrate();
+int IsRunning();
 };
+
 #endif
