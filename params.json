@@ -1,0 +1,6 @@
+{
+  "name": "Bitty bot",
+  "tagline": "Code for the Bitty Rover Bot",
+  "body": "# Bitty Bot\r\n\r\nCode for the Bitty Bot Rover.\r\n\r\n## Installation\r\n\r\nTODO: Describe the installation process\r\n\r\n## Usage\r\n\r\nTODO: Write usage instructions\r\n\r\n## Contributing\r\n\r\n1. Fork it!\r\n2. Create your feature branch: `git checkout -b my-new-feature`\r\n3. Commit your changes: `git commit -am 'Add some feature'`\r\n4. Push to the branch: `git push origin my-new-feature`\r\n5. Submit a pull request\r\n\r\n## Credits\r\n\r\nLeRoy Miller\r\n\r\n## License\r\n\r\nThis program is free software: you can redistribute it and/or modify\r\n    it under the terms of the GNU General Public License as published by\r\n    the Free Software Foundation, either version 3 of the License, or\r\n    (at your option) any later version.\r\n\r\n    This program is distributed in the hope that it will be useful,\r\n    but WITHOUT ANY WARRANTY; without even the implied warranty of\r\n    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\r\n    GNU General Public License for more details.\r\n\r\n    You should have received a copy of the GNU General Public License\r\n    along with this program.  If not, see <http://www.gnu.org/licenses\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
