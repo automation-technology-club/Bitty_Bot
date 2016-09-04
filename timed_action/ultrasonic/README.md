@@ -1,6 +1,6 @@
 # Bitty Bot
 
-UltraSonic Demo using Class Code for the Bitty Bot Rover.
+UltraSonic Demo using the TimedAction library.
 
 ## Installation
 
@@ -8,7 +8,7 @@ TODO: Describe the installation process
 
 ## Usage
 
-See Usage.txt 
+Not Working Correctly, Strange Things happen.
 
 ## Contributing
 
