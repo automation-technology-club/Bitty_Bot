@@ -36,7 +36,12 @@ TimedAction blink8action = TimedAction(750, blink8);
 void setup () {
 	Serial.begin(9600);
 	bot.begin();
-	
+	pinMode(13, OUTPUT);
+  pinMode(12,OUTPUT);
+  pinMode(11,OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(8, OUTPUT);
 	Serial.println("Hello!");
 }
 
