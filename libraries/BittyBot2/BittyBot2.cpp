@@ -42,7 +42,7 @@ void BittyBot::Speed(int speedL, int speedR) {
 }
 
 void BittyBot::stop() {
-
+    _previousMillis = millis();
 	digitalWrite(_Left1, LOW);
 	digitalWrite(_Left2, LOW);
 	digitalWrite(_Right1, LOW);
@@ -52,6 +52,7 @@ void BittyBot::stop() {
 }
 
 void BittyBot::forward(int OnTime) {
+    _previousMillis = millis();
 	digitalWrite(_Left1, LOW);
 	digitalWrite(_Left2, HIGH);
 	digitalWrite(_Right1, LOW);
@@ -61,6 +62,7 @@ void BittyBot::forward(int OnTime) {
 }
 
 void BittyBot::back(int OnTime) {
+    _previousMillis = millis();
 	digitalWrite(_Left1, HIGH);
 	digitalWrite(_Left2, LOW);
 	digitalWrite(_Right1, HIGH);
@@ -71,6 +73,7 @@ void BittyBot::back(int OnTime) {
 }
 
 void BittyBot::rightTight(int OnTime) {
+    _previousMillis = millis();
 	digitalWrite(_Left1, LOW);
 	digitalWrite(_Left2, HIGH);
 	digitalWrite(_Right1, HIGH);
@@ -80,6 +83,7 @@ void BittyBot::rightTight(int OnTime) {
 }
 
 void BittyBot::leftTight(int OnTime) {
+    _previousMillis = millis();
 	digitalWrite(_Left1, HIGH);
 	digitalWrite(_Left2, LOW);
 	digitalWrite(_Right1, LOW);
@@ -89,6 +93,7 @@ void BittyBot::leftTight(int OnTime) {
 }
 
 void BittyBot::right(int OnTime) {
+    _previousMillis = millis();
 	digitalWrite(_Left1, LOW);
 	digitalWrite(_Left2, HIGH);
 	digitalWrite(_Right1, LOW);
@@ -99,6 +104,7 @@ void BittyBot::right(int OnTime) {
 }
 
 void BittyBot::left(int OnTime) {
+    _previousMillis = millis();
 	digitalWrite(_Left1, LOW);
 	digitalWrite(_Left2, LOW);
 	digitalWrite(_Right1, LOW);
