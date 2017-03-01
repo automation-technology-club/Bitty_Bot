@@ -4,8 +4,9 @@
 
 #include "BittyBot2.h"
 
-int leftspeed = 175;
-int rightspeed = 175;
+int leftspeed = 75;
+int rightspeed = 75;
+int turnDelay = 1250;
 
 BittyBot bot(44,46,36,38,40,42); //Left Enable, Right Enable, Pin1 for Left, Pin2 for Left, Pin 1 for Right, Pin 2 for Right
 
@@ -34,7 +35,7 @@ Serial.println("Right!");
 void turnleft() {
   //turn left about 90 degrees
   bot.Speed(leftspeed,rightspeed);
-  bot.leftTight(360);
+  bot.leftTight(turnDelay); //360
   while (bot.IsRunning()) {
     
     Serial.println(bot.IsRunning());
@@ -45,7 +46,7 @@ void turnleft() {
 void turnright() {
   //turn right about 90 degrees
   bot.Speed(leftspeed, rightspeed);
-  bot.rightTight(360);
+  bot.rightTight(turnDelay); //360
   while (bot.IsRunning()) {
     
     Serial.println(bot.IsRunning());
